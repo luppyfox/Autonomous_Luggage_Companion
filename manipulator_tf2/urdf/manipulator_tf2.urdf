@@ -139,7 +139,7 @@
   </link>
   <joint
     name="arm_1_joint"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0 0.0374999999996634"
       rpy="1.5707963267949 0 1.96777674023095" />
@@ -197,7 +197,7 @@
   </link>
   <joint
     name="arm_2_joint"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.000571784259143912 0.0325000000003336 0.000239713915762298"
       rpy="0 0 0" />
@@ -255,7 +255,7 @@
   </link>
   <joint
     name="arm_3_joint"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0.151999999999983 0"
       rpy="0 0 0" />
@@ -313,7 +313,7 @@
   </link>
   <joint
     name="arm_4_joint"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0 0.146399999999996 0"
       rpy="0 0 0" />
@@ -371,7 +371,7 @@
   </link>
   <joint
     name="arm_5_joint"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.000560909224782251 0.0911499999988545 0.00281042669964111"
       rpy="3.14159265358979 0 3.14159265358979" />
@@ -429,7 +429,7 @@
   </link>
   <joint
     name="gripper_1_joint"
-    type="continuous">
+    type="revolute">
     <origin
       xyz="0.00681042856091228 0.0295000000010719 -0.0117831951448031"
       rpy="0.907774019708768 -0.891606334193261 2.11682187298042" />
