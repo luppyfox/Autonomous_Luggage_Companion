@@ -19,6 +19,6 @@ class urdf_simple_ik() :
     
 if __name__ == "__main__" :
     ik_simple = urdf_simple_ik("manipulator_tf2/urdf/manipulator_tf2.urdf")
-    armrad = ik_simple.ik(target = [0.1, 0.2, 0.3])
+    armrad = ik_simple.ik(target = [0.1, 0.2, 0.2])
     print(armrad)
     ik_simple.debug_plot(armrad)
