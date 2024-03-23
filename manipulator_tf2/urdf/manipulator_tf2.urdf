@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="manipulator_tf2">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-1.13816966653457E-15 -1.11047232053973E-14 -0.0025"
+        rpy="0 0 0" />
+      <mass
+        value="0.240825" />
+      <inertia
+        ixx="0.0005736852875"
+        ixy="1.07152882370721E-15"
+        ixz="2.56056658386423E-15"
+        iyy="0.0016305859375"
+        iyz="2.74752429868559E-15"
+        izz="0.0022032677875" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="arm_base_link">
+    <inertial>
+      <origin
+        xyz="0.00315346600317936 -1.49065342340387E-09 0.0318153972423446"
+        rpy="0 0 0" />
+      <mass
+        value="0.0888805032863536" />
+      <inertia
+        ixx="7.78274568162348E-05"
+        ixy="-9.02366661314261E-13"
+        ixz="-4.51119521708736E-08"
+        iyy="8.05930936282739E-05"
+        iyz="6.09842168253615E-13"
+        izz="0.000152787665848685" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_base_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="arm_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="arm_1_link">
+    <inertial>
+      <origin
+        xyz="-0.00304007438039228 0.0196164335050336 -0.0029151743300493"
+        rpy="0 0 0" />
+      <mass
+        value="0.102309676287535" />
+      <inertia
+        ixx="5.85277337608597E-05"
+        ixy="-1.83034149081814E-07"
+        ixz="-5.85534183279991E-07"
+        iyy="0.000109918724976136"
+        iyz="3.63049047141081E-07"
+        izz="5.95682017970673E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_1_joint"
+    type="continuous">
+    <origin
+      xyz="0 0 0.0374999999996634"
+      rpy="1.5707963267949 0 1.96777674023095" />
+    <parent
+      link="arm_base_link" />
+    <child
+      link="arm_1_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="10"
+      velocity="100" />
+  </joint>
+  <link
+    name="arm_2_link">
+    <inertial>
+      <origin
+        xyz="-0.00136241892660666 0.0760000000000054 0.00324974749168586"
+        rpy="0 0 0" />
+      <mass
+        value="0.0731866074343534" />
+      <inertia
+        ixx="4.80073815600738E-05"
+        ixy="-1.00851029255912E-08"
+        ixz="8.91994561566129E-06"
+        iyy="3.20760640864427E-05"
+        iyz="2.40557713107402E-08"
+        izz="3.04704178358833E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_2_joint"
+    type="continuous">
+    <origin
+      xyz="0.000571784259143912 0.0325000000003336 0.000239713915762298"
+      rpy="0 0 0" />
+    <parent
+      link="arm_1_link" />
+    <child
+      link="arm_2_link" />
+    <axis
+      xyz="0.386635347795088 0 -0.922232675540924" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="10"
+      velocity="100" />
+  </joint>
+  <link
+    name="arm_3_link">
+    <inertial>
+      <origin
+        xyz="-0.00258153228737828 0.0524015939543157 0.000939181170547908"
+        rpy="0 0 0" />
+      <mass
+        value="0.103604281307373" />
+      <inertia
+        ixx="3.8588101873845E-05"
+        ixy="-4.80398867397133E-07"
+        ixz="5.05895931054399E-06"
+        iyy="2.2886211390493E-05"
+        iyz="-1.44453325729104E-07"
+        izz="2.97794533690996E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_3_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.151999999999983 0"
+      rpy="0 0 0" />
+    <parent
+      link="arm_2_link" />
+    <child
+      link="arm_3_link" />
+    <axis
+      xyz="0.386635347795088 0 -0.922232675540924" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="10"
+      velocity="100" />
+  </joint>
+  <link
+    name="arm_4_link">
+    <inertial>
+      <origin
+        xyz="-0.00101187424520457 0.0375011786162054 -0.00366708119525012"
+        rpy="0 0 0" />
+      <mass
+        value="0.0995665365963181" />
+      <inertia
+        ixx="2.11129357501019E-05"
+        ixy="-8.60509757951901E-08"
+        ixz="2.61664433182121E-06"
+        iyy="1.51148952173046E-05"
+        iyz="-3.6075873075768E-08"
+        izz="1.71059724055467E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_4_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_4_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_4_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.146399999999996 0"
+      rpy="0 0 0" />
+    <parent
+      link="arm_3_link" />
+    <child
+      link="arm_4_link" />
+    <axis
+      xyz="0.386635347795096 0 -0.922232675540921" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="10"
+      velocity="100" />
+  </joint>
+  <link
+    name="arm_5_link">
+    <inertial>
+      <origin
+        xyz="-0.00868940056198372 0.0276881873218452 -0.0253003257922137"
+        rpy="0 0 0" />
+      <mass
+        value="0.0375612763479438" />
+      <inertia
+        ixx="6.51328878264191E-06"
+        ixy="4.8242574596218E-09"
+        ixz="1.70111525571286E-06"
+        iyy="6.43248404947129E-06"
+        iyz="-9.59375876064533E-09"
+        izz="2.95122659500973E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_5_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/arm_5_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="arm_5_joint"
+    type="continuous">
+    <origin
+      xyz="0.000560909224782251 0.0911499999988545 0.00281042669964111"
+      rpy="3.14159265358979 0 3.14159265358979" />
+    <parent
+      link="arm_4_link" />
+    <child
+      link="arm_5_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="10"
+      velocity="100" />
+  </joint>
+  <link
+    name="gripper_1_link">
+    <inertial>
+      <origin
+        xyz="0.000163480468778371 -0.00403983489031307 0.00336463442656966"
+        rpy="0 0 0" />
+      <mass
+        value="0.00233893532260202" />
+      <inertia
+        ixx="2.44085104510353E-07"
+        ixy="-4.91339631989955E-09"
+        ixz="-5.7312695281465E-19"
+        iyy="7.71995240693851E-08"
+        iyz="2.04126223863806E-18"
+        izz="3.18397565042681E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/gripper_1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://manipulator_tf2/meshes/gripper_1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gripper_1_joint"
+    type="continuous">
+    <origin
+      xyz="0.00681042856091228 0.0295000000010719 -0.0117831951448031"
+      rpy="0.907774019708768 -0.891606334193261 2.11682187298042" />
+    <parent
+      link="arm_5_link" />
+    <child
+      link="gripper_1_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="10"
+      velocity="100" />
+  </joint>
+</robot>
