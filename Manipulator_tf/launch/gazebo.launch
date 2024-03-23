@@ -10,7 +10,7 @@
     name="spawn_model"
     pkg="gazebo_ros"
     type="spawn_model"
-    args="-file $(find Manipulator_tf)/urdf/Manipulator_tf.urdf -urdf -model Manipulator_tf"
+    args="-file $(find manipulator_tf)/urdf/manipulator_tf.urdf -urdf -model manipulator_tf"
     output="screen" />
   <node
     name="fake_joint_calibration"

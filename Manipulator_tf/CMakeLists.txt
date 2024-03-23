@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-project(Manipulator_tf)
+project(manipulator_tf)
 
 find_package(catkin REQUIRED)
 
