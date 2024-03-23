@@ -1,6 +1,5 @@
 from ikpy.chain import Chain
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 class urdf_simple_ik() :
     def __init__(self, ufrd_path : str) -> None :
