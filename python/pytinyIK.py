@@ -1,19 +1,37 @@
 import tinyik
 import numpy as np
+import pyFileInteraction as fi
 
-arm = tinyik.Actuator([
-    [0, 0, 0.0318153972423446], 
-    "z", 
-    [0, 0, 0.0374999999996634], 
-    "y", 
-    [0, 0, 0.000239713915762298],
-    "y", 
-    [0, 0, 0.151999999999983], 
-    "y", 
-    [0, 0, 0.146399999999996], 
-    "z", 
-    [0, 0, 0.00281042669964111]
-    ])
-
-arm.ee = [0.1, 0.2, 0.3]
-print(list(np.rad2deg(arm.angles)))
+class simple_ik() :
+    def __init__(self, titf = None) -> None :
+        self.titf = titf
+        if self.titf != None :
+            self.arm = tinyik.Actuator(self.titf)
+        else :
+            pass
+        
+    def load_titf(self, json_path) :
+        data = fi.read_json(json_path)
+        titf_name = data["name"]
+        unit = data["unit"]
+        self.titf = data["titf"]
+        self.arm = tinyik.Actuator(self.titf)
+        return titf_name, unit
+    
+    def create_titf(self, titf) :
+            self.arm = tinyik.Actuator(titf)
+        
+    def ik(self, target : list) :
+        if self.titf == None :
+            e = "TITF is not declare. Please call 'load_titf' or 'create_titf' before using IK"
+            raise Exception(e)
+        self.arm.ee = target
+        return list(np.rad2deg(self.arm.angles))
+    
+    
+if __name__ == "__main__" :
+    ik = simple_ik()
+    ik.load_titf("titf_json/manipulator_titf2.json")
+    
+    target = [200, 300, 200]
+    print(ik.ik(target))
