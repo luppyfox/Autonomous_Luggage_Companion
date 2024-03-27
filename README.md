@@ -19,6 +19,6 @@ sudo apt install ros-$ROS_DISTRO-rgbd-launch libuvc-dev
 ```
 ## 2.2 Audio
 ```
-https://github.com/ros-drivers/audio_common.git
+git clone https://github.com/ros-drivers/audio_common.git
 sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
