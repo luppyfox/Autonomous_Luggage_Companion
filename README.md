@@ -23,3 +23,6 @@ git clone https://github.com/ros-drivers/audio_common.git
 sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
 ## 2.3 Kuboki
+```
+sudo apt install -y ros-noetic-urdf ros-noetic-ecl* ros-noetic-joy ros-noetic-xacro ros-noetic-robot-state-publisher ros-noetic-diagnostic-aggregator libusb-dev libftdi-dev python-is-python3 ros-noetic-gmapping ros-noetic-amcl ros-noetic-map-server ros-noetic-dwa-local-planner ros-noetic-move-base
+```
