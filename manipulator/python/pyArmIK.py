@@ -35,9 +35,11 @@ class armIk() :
         if mani_dag[1] + mani_dag[2] < 90 :
             mani_dag[1] = 0
             mani_dag[2] = 90
+        self.send_command(mani_dag)
+        
+    def send_command(self, data_list) :
         s = ""
-        print(mani_dag)
-        for dat in mani_dag :
+        for dat in data_list :
             s +=  chr(int(dat))
         self.ser.write(bytes(s, 'utf-8'))
         
@@ -60,7 +62,7 @@ if __name__ == "__main__" :
     import keyboard as ky
     
     ik = armIk(connect_port="COM3", baud=9600, titf_json_path="manipulator/titf_json/manipulator_titf2.json")
-    target = [200, 200, 300]
+    target = [200, 200, 300] # x:side y:front-back z:up-down
     
     while True :
         if ky.is_pressed("w") :
