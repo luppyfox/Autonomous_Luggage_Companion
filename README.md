@@ -22,3 +22,4 @@ sudo apt install ros-$ROS_DISTRO-rgbd-launch libuvc-dev
 git clone https://github.com/ros-drivers/audio_common.git
 sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
+## 2.3 Kuboki
