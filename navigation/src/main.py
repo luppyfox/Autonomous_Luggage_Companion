@@ -7,6 +7,7 @@ from geometry_msgs.msg import Pose2D
 from nav_msgs.msg import Odometry
 import math
 from geometry_msgs.msg import Twist
+from pyArmIK import
 
 class MainSystem:
     def __init__(self):
@@ -17,10 +18,14 @@ class MainSystem:
         self.vel_msg.linear.x = 0.0
         self.vel_msg.angular.z = 0.0
 
+        rospy.Subscriber("/hand_side", String, self.hand_callback)
+
+        rospy.Subscriber("/bag_pose", String, self.bag_callback)
+
         rospy.Subscriber("/human_side", String, queue_size = 10)
         rospy.Subscriber("/human_dist", Int32, queue_size = 10)
 
-        rospy.Subscriber("/hand_side", String, self.hand_callback)
+        
 
         rospy.Subscriber('pose2D', Pose2D, self.pose_callback)
 
@@ -36,6 +41,14 @@ class MainSystem:
             self.lock.release()
         except Exception as e:
             rospy.logerr(e)
+
+    def bag_callback(self, data):
+        bag_goal_x = data.x
+        bag_goal_y = data.y
+        bag_goal_th = data.theta
+        pass
+
+
 
     def pose_callback(self, data):
         self.x = data.x
@@ -77,6 +90,8 @@ class MainSystem:
             self.vel_pub.publish(self.vel_msg)
 
             if dth <= tolerance_th and dth >= -tolerance_th:
+                break
+        self.state = 1
 
 
     def run(self):

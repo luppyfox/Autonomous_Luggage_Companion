@@ -60,7 +60,7 @@ if __name__ == "__main__" :
     import keyboard as ky
     
     ik = armIk(connect_port="COM3", baud=9600, titf_json_path="manipulator/titf_json/manipulator_titf2.json")
-    target = [200, 200, 300]
+    target = [200, 200, 300] # x:side y:front-back z:up-down
     
     while True :
         if ky.is_pressed("w") :
