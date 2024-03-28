@@ -3,7 +3,7 @@
       the first number and the subdevice number as the second in a string
       like hw:1,0 -->
   <arg name="dst" default="appsink"/>
-  <arg name="device" default=""/> <!--Important key !!!!!!!!!!!!! -->
+  <arg name="device" default="fifine Microphone"/> <!--Important key !!!!!!!!!!!!! -->
   <arg name="format" default="mp3"/>
   <arg name="bitrate" default="128"/>
   <arg name="channels" default="1"/>
