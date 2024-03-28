@@ -35,9 +35,11 @@ class armIk() :
         if mani_dag[1] + mani_dag[2] < 90 :
             mani_dag[1] = 0
             mani_dag[2] = 90
+        self.send_command(mani_dag)
+        
+    def send_command(self, data_list) :
         s = ""
-        print(mani_dag)
-        for dat in mani_dag :
+        for dat in data_list :
             s +=  chr(int(dat))
         self.ser.write(bytes(s, 'utf-8'))
         

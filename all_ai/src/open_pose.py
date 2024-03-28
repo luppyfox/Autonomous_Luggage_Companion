@@ -92,8 +92,8 @@ class HandGestureListener:
                         '''
                         #line 
                         #print(cx)
-                        cv2.line(self.frame_rgb,(cx, 0),(cx, int(height/2)), (0,255,0), thickness=2)
-                        cv2.line(self.frame_rgb,(int(width/2), 0),(int(width/2), int(height/2)), (255,0,0), thickness=2)
+                        cv2.line(self.frame_rgb,(cx, 0),(cx, int(height)), (0,255,0), thickness=2)
+                        cv2.line(self.frame_rgb,(int(width/2), 0),(int(width), int(height/2)), (255,0,0), thickness=2)
 
                         #center to cx - self.center h = distance 
 
