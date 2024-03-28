@@ -18,7 +18,7 @@ class HandGestureListener:
         rospy.Subscriber("/camera/color/image_raw", Image, self.rgb_callback)
         rospy.Subscriber("/camera/depth/image_raw", Image, self.depth_callback)
 
-        self.side_pub = rospy.Publisher("/human_side", String, queue_size = 10)
+        # self.side_pub = rospy.Publisher("/human_side", String, queue_size = 10)
         self.dist_pub = rospy.Publisher("/human_dist", Int32, queue_size = 10)
         self.turning_pub = rospy.Publisher("/human_turn", Float64, queue_size = 10)
 

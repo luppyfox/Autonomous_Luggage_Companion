@@ -2,7 +2,7 @@
 
 import rospy
 import numpy as np
-from std_msgs.msg import String, Int32
+from std_msgs.msg import String, Int32, Float64
 from geometry_msgs.msg import Pose2D
 from nav_msgs.msg import Odometry
 import math
@@ -22,8 +22,9 @@ class MainSystem:
 
         rospy.Subscriber("/bag_pose", String, self.bag_callback)
 
-        rospy.Subscriber("/human_side", String, queue_size = 10)
-        rospy.Subscriber("/human_dist", Int32, queue_size = 10)
+        # rospy.Subscriber("/human_side", String, queue_size = 10)
+        rospy.Subscriber("/human_dist", Int32, self.human_dist_callback)
+        rospy.Subscriber("/human_turn", Float64, self.human_turn_callback)
 
         
 
@@ -32,34 +33,6 @@ class MainSystem:
         self.state = 0
 
         self.rate = rospy.Rate(500)
-
-    def rgb_callback(self, data):
-        try:
-            frame_rgb = self.bridge.imgmsg_to_cv2(data, "bgr8")
-            self.lock.acquire()
-            self.frame_rgb = frame_rgb
-            self.lock.release()
-        except Exception as e:
-            rospy.logerr(e)
-
-    def bag_callback(self, data):
-        bag_goal_x = data.x
-        bag_goal_y = data.y
-        bag_goal_th = data.theta
-        pass
-
-
-
-    def pose_callback(self, data):
-        self.x = data.x
-        self.y = data.y
-        self.th = data.theta
-    
-    def depth_callback(self, data):
-        try:
-            pass
-        except:
-            pass
     
     def hand_callback(self, data):
         tolerance_xy = 0.05 #m
@@ -90,9 +63,34 @@ class MainSystem:
             self.vel_pub.publish(self.vel_msg)
 
             if dth <= tolerance_th and dth >= -tolerance_th:
+                self.state = 1
                 break
-        self.state = 1
+        
 
+    def human_dist_callback(self,data):
+        self.human_dist = data.data
+
+    def human_turn_callback(self, data):
+        se
+
+    def bag_callback(self, data):
+        bag_goal_x = data.x
+        bag_goal_y = data.y
+        bag_goal_th = data.theta
+        pass
+
+
+
+    def pose_callback(self, data):
+        self.x = data.x
+        self.y = data.y
+        self.th = data.theta
+    
+    def depth_callback(self, data):
+        try:
+            pass
+        except:
+            pass
 
     def run(self):
         while not rospy.is_shutdown():
