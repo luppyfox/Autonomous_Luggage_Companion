@@ -24,6 +24,7 @@ sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
 ## 2.3 Kuboki
 Dowload this https://gitlab.com/robotcitizens_training/education-th/education-th-2024/-/blob/main/backup/sources.zip
+
 Extrat in other_support_pkg:
 ```
 roscd;cd ..
