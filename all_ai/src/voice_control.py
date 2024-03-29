@@ -37,4 +37,3 @@ class VoiceRecognitionNode:
 if __name__ == '__main__':
     voice_recognition_node = VoiceRecognitionNode()
     voice_recognition_node.run()
-s
