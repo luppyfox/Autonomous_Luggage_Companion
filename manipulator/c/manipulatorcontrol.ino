@@ -1,8 +1,8 @@
 #include <Servo.h>
 
 int incomingByte = 0;
-int data_arr[] = { 90, 90, 90, 90 };
-int olddata_arr[] = { 90, 90, 90, 90 };
+int data_arr[] = { 90, 135, 10, 135 };
+int olddata_arr[] = { 90, 135, 10, 135};
 int arr_len = sizeof(data_arr) / sizeof(int);
 int move_step = 1;
 
