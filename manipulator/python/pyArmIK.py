@@ -3,10 +3,11 @@ import numpy as np
 import pyFileInteraction as fi
 from serial import Serial
 import time
+from struct import pack
 
 class armIk() :
     def __init__(self, connect_port, baud = 9600, titf_json_path = None) -> None :
-        self.ser = Serial(port = connect_port, baudrate=baud, timeout=0.05, writeTimeout=0.01)
+        self.ser = Serial(port = connect_port, baudrate=baud, timeout=1, writeTimeout=1)
         
         self.titf = None
         if titf_json_path != None :
@@ -38,10 +39,13 @@ class armIk() :
         self.send_command(mani_dag)
         
     def send_command(self, data_list) :
-        s = ""
+        # print(data_list)
+        str_data_list = []
         for dat in data_list :
-            s +=  chr(int(dat))
-        self.ser.write(bytes(s, 'utf-8'))
+            str_data_list.append(int(dat))
+        s = pack('hhhh', *str_data_list)
+        # print(s)
+        self.ser.write(s)
         
     def load_titf(self, titf_json_path) :
         data = fi.read_json(titf_json_path)
@@ -59,25 +63,19 @@ class armIk() :
         return list(np.rad2deg(self.arm.angles))  
     
 if __name__ == "__main__" :
-    import keyboard as ky
-    
-    ik = armIk(connect_port="COM3", baud=9600, titf_json_path="manipulator/titf_json/manipulator_titf2.json")
-    target = [0, 300, 200] # x:side y:front-back z:up-down
-    
-    while True :
-        if ky.is_pressed("w") :
-            target[1] += 4
-        elif ky.is_pressed("s") :
-            target[1] -= 4
-        if ky.is_pressed("a") :
-            target[0] += 4
-        elif ky.is_pressed("d") :
-            target[0] -= 4
-        if ky.is_pressed("r") :
-            target[2] += 4
-        elif ky.is_pressed("f") :
-            target[2] -= 4
-        print(target)
-        
-        ik.move_arm(target)
-        time.sleep(0.02)
+    # import keyboard as ky
+    ik = armIk(connect_port="COM3", baud=9600  , titf_json_path="manipulator/titf_json/manipulator_titf2.json")
+    target_1 = [90, 180, 45, 180]
+    target_2 = [90, 180, 10, 180]
+    target_3 = [90, 90, 60, 140]
+    target_4 = [90, 90, 60, 130]
+    target_5 = target_1
+    target_list = [target_1, target_2, target_3, target_4, target_5]
+    # time.sleep(5)
+    for tar in target_list :
+        # time.sleep(5)
+        print(tar)
+        for i in range(100) :
+            ik.send_command(tar)
+            time.sleep(0.02)
+        # time.sleep(3)
