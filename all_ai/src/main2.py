@@ -42,14 +42,18 @@ class MainSystem:
 
     # ---------------------------- Other ---------------------------------
 
-        self.state = 0  #Control manual state
+        self.state = 3  #Control manual state
         self.state_pub.publish(self.state)
+        rospy.loginfo(self.state)
+
+        self.client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 
         self.rate = rospy.Rate(500)
 
     
     # ---------------------------------------------------------------------    STATE 0  Finding hand side and go to that's bag side-----------------------------------------------------------------------------------------
     def hand_callback_fixed_pose(self, data):
+        rospy.loginfo(self.state)
         tolerance_xy = 0.05 #m
         tolerance_th = 0.02 #radian
         bag_goal_x = 1
@@ -87,6 +91,7 @@ class MainSystem:
         
     # ---------------------------------------------------------------------    STATE 1  Finding bag position for manipulator-----------------------------------------------------------------------------------------
     def bag_callback(self, data):
+        rospy.loginfo(self.state)
         bag_goal_x = data.x
         bag_goal_y = data.y
         bag_goal_th = data.theta
@@ -105,6 +110,7 @@ class MainSystem:
             self.human_dist = data.data / 1000 # from mm to m
 
     def human_turn_callback(self, data):
+        rospy.loginfo(self.state)
         if self.state == 2:
             self.human_turn = data.data
             vel_x = 0.08*self.human_dist/0.15
@@ -131,6 +137,8 @@ class MainSystem:
 
     # ---------------------------------------------------------------------    STATE 3 Navigation-----------------------------------------------------------------------------------------
     def send_goal(self, x, y, theta):
+        rospy.loginfo(self.state)
+        self.client.wait_for_server()
         goal = MoveBaseGoal()
         goal.target_pose.header.frame_id = "map"
         goal.target_pose.header.stamp = rospy.Time.now()
@@ -163,7 +171,9 @@ class MainSystem:
     def run(self):
         while not rospy.is_shutdown():
             if self.state == 3:
+                rospy.loginfo(self.state)
                 self.send_goal(0,0,0)
+                rospy.loginfo(self.state)
             rospy.spin()
 
 if __name__ == '__main__':
