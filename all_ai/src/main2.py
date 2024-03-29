@@ -42,7 +42,7 @@ class MainSystem:
 
     # ---------------------------- Other ---------------------------------
 
-        self.state = 0  #Control manual state
+        self.state = 3  #Control manual state
         self.state_pub.publish(self.state)
 
         self.rate = rospy.Rate(500)
