@@ -20,8 +20,8 @@ class obj_pos() :
         rospy.Subscriber("/camera/color/image_raw", Image, self.rgb_callback)
         rospy.Subscriber("/camera/depth/image_raw", Image, self.depth_callback)
 
-        self.arm_turn = rospy.Publisher("/arm_turning", Float64, queue_size = 10)
-        self.arm_dist = rospy.Publisher("/arm_distange", Float64, queue_size = 10)
+        self.bag_turn = rospy.Publisher("/bag_turning", Float64, queue_size = 10)
+        self.bag_dist = rospy.Publisher("/bag_distange", Float64, queue_size = 10)
 
         self.maximum_turning_speed = 15.0
 
@@ -78,12 +78,12 @@ class obj_pos() :
 
 
         
-    def get_obj_pos(self, image, depth, get_leftmost = False, get_rightmost = True) :
+    def get_obj_pos(self, get_leftmost = False, get_rightmost = False) :
         # image = cv2.resize(image, (320, 320))
-        results = self.model.track(image, persist=True, verbose=False)
+        results = self.model.track(self.frame_rgb, persist=True, verbose=False)
         height, width, _ = self.frame_rgb.shape
         boxes = results[0].boxes.xyxy.cpu()
-        save_cen = [image.shape[1]/2, image.shape[0]/2]
+        save_cen = [self.frame_rgb.shape[1]/2, self.frame_rgb.shape[0]/2]
         if results[0].boxes.id is not None:
             confs = results[0].boxes.conf.float().tolist()
             confs = confs[0]
@@ -121,7 +121,7 @@ class obj_pos() :
                     
                     try:
                         dist =  self.frame_depth[centroi[1], centroi[0]]
-                        self.arm_dist.publish(dist)
+                        self.bag_dist.publish(dist)
     
                     except Exception as e:
                         rospy.logerr(e)    
@@ -132,7 +132,7 @@ class obj_pos() :
     
                         #print(turning)
     
-                        self.arm_turn.publish(turning)
+                        self.bag_turn.publish(turning)
                     except Exception as e:
                         rospy.logerr(e)
                 
