@@ -78,7 +78,7 @@ class obj_pos() :
 
 
         
-    def get_obj_pos(self, image, depth, get_leftmost = False, get_rightmost = True) :
+    def get_obj_pos(self, image, depth, get_leftmost = False, get_rightmost = False) :
         # image = cv2.resize(image, (320, 320))
         results = self.model.track(image, persist=True, verbose=False)
         height, width, _ = self.frame_rgb.shape
