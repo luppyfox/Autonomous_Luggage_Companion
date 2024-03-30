@@ -11,6 +11,7 @@ import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from tf.transformations import quaternion_from_euler
 from math import pi
+from bage_follwer import obj_pos
 # from pyArmIK import
 
 class MainSystem:
@@ -25,9 +26,13 @@ class MainSystem:
         self.vel_msg.angular.z = 0.0
 
     # ---------------------------- Subscribe ---------------------------------
-        rospy.Subscriber("/hand_side", String, self.hand_callback_fixed_pose)
+        rospy.Subscriber("/hand_send", String, self.hand_callback_fixed_pose)
 
-        rospy.Subscriber("/bag_pose", String, self.bag_callback)
+        # rospy.Subscriber("/bag_pose", String, self.bag_callback)
+        rospy.Subscriber("/bag_turning", Float64, self.bag_turn_callback)
+        self.bag_turn = 0.0
+        rospy.Subscriber("/bag_distange", Float64, self.bag_dist_callback)
+        self.bag_dist = 0.0
 
         # rospy.Subscriber("/human_side", String, queue_size = 10)
         rospy.Subscriber("/human_dist", Int32, self.human_dist_callback)
@@ -42,7 +47,7 @@ class MainSystem:
 
     # ---------------------------- Other ---------------------------------
 
-        self.state = 3  #Control manual state
+        self.state = 2  #Control manual state
         self.state_pub.publish(self.state)
         rospy.loginfo(self.state)
 
@@ -53,38 +58,76 @@ class MainSystem:
     
     # ---------------------------------------------------------------------    STATE 0  Finding hand side and go to that's bag side-----------------------------------------------------------------------------------------
     def hand_callback_fixed_pose(self, data):
-        rospy.loginfo(self.state)
-        tolerance_xy = 0.05 #m
-        tolerance_th = 0.02 #radian
-        bag_goal_x = 1
-        bag_goal_y = 1
-        bag_goal_th = 0
-        
-        if (data.data == "L"):
-            dir = 1
+        rospy.loginfo("Cureent state == ", self.state)
+        if self.state == 0:
+            hand = data.data
+            OP = obj_pos("catkin_ws/src/ksuck/src/bag_detect_best.pt", 0.1, 60.0, 49.5)
+            if hand == "left":
+                OP.get_obj_pos(True,False)
+            elif hand == "right":
+                OP.get_obj_pos(False,True)
 
-        elif (data.data == "R"):
-            dir = -1
+    def bag_turn_callback(self, data):
+        if self.state == 0:
+            self.bag_turn = data.data
 
-        else:
-            dir = 0
+    def bag_dist_callback(self,data):
+        if self.state == 0:
+            self.bag_dist = data.data / 1000 # from mm to m
+            self.bag_turn = data.data
+            vel_x = 0.08*self.bag_dist/1.5
 
-        bag_goal_x *= dir
-        bag_goal_y *= dir
-        bag_goal_th *= dir
-        while (self.state == 0 ):
-            dx = bag_goal_x - self.x
-            dy = bag_goal_y - self.y
-            angle_to_walk_linear = math.atan2(dy, dx)
-            dth = angle_to_walk_linear - self.th
-            self.vel_msg.angular.z = dth #rad/s
-            
+            if vel_x >= 1.5:
+                vel_x = 0.08  # Maximum speed
+            elif self.bag_dist <= 0.23:
+                vel_x = 0.0
+                self.vel_msg.linear.x = 0
+                self.vel_msg.angular.z = 0
+                self.vel_pub.publish(self.vel_msg)
+                self.state = 2
+                self.state_pub.publish(self.state)
+
+
+            if self.bag_turn > 0.349066:
+                self.bag_turn = 0.349066
+            elif self.bag_turn <= 0:
+                self.bag_turn = 0
+
+            self.vel_msg.linear.x = vel_x
+            self.vel_msg.angular.z = self.bag_turn
             self.vel_pub.publish(self.vel_msg)
 
-            if dth <= tolerance_th and dth >= -tolerance_th:
-                self.state = 1
-                self.state_pub.publish(self.state)
-                break
+        # tolerance_xy = 0.05 #m
+        # tolerance_th = 0.02 #radian
+        # bag_goal_x = 1
+        # bag_goal_y = 1
+        # bag_goal_th = 0
+        
+        # if (data.data == "L"):
+        #     dir = 1
+
+        # elif (data.data == "R"):
+        #     dir = -1
+
+        # else:
+        #     dir = 0
+
+        # bag_goal_x *= dir
+        # bag_goal_y *= dir
+        # bag_goal_th *= dir
+        # while (self.state == 0 ):
+        #     dx = bag_goal_x - self.x
+        #     dy = bag_goal_y - self.y
+        #     angle_to_walk_linear = math.atan2(dy, dx)
+        #     dth = angle_to_walk_linear - self.th
+        #     self.vel_msg.angular.z = dth #rad/s
+            
+        #     self.vel_pub.publish(self.vel_msg)
+
+        #     if dth <= tolerance_th and dth >= -tolerance_th:
+        #         self.state = 1
+        #         self.state_pub.publish(self.state)
+        #         break
         
         def hand_callback_bag_detect(self, data):
             pass
@@ -110,14 +153,14 @@ class MainSystem:
             self.human_dist = data.data / 1000 # from mm to m
 
     def human_turn_callback(self, data):
-        rospy.loginfo(self.state)
+        rospy.loginfo("Cureent state == ", self.state)
         if self.state == 2:
             self.human_turn = data.data
-            vel_x = 0.08*self.human_dist/0.15
+            vel_x = 0.08*self.human_dist/1.5
 
-            if vel_x >= 0.15:
+            if vel_x >= 1.5:
                 vel_x = 0.08  # Maximum speed
-            elif self.human_dist <= 0.05:
+            elif self.human_dist <= 0.5:
                 vel_x = 0.0
             if self.human_turn > 0.349066:
                 self.human_turn = 0.349066
@@ -137,7 +180,7 @@ class MainSystem:
 
     # ---------------------------------------------------------------------    STATE 3 Navigation-----------------------------------------------------------------------------------------
     def send_goal(self, x, y, theta):
-        rospy.loginfo(self.state)
+        rospy.loginfo("Cureent state == ", self.state)
         self.client.wait_for_server()
         goal = MoveBaseGoal()
         goal.target_pose.header.frame_id = "map"
@@ -171,7 +214,7 @@ class MainSystem:
     def run(self):
         while not rospy.is_shutdown():
             if self.state == 3:
-                rospy.loginfo(self.state)
+                rospy.loginfo("Cureent state == ", self.state)
                 self.send_goal(0,0,0)
                 rospy.loginfo(self.state)
             rospy.spin()
