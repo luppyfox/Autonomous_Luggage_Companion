@@ -9,9 +9,9 @@
 
     <node name="human_node" pkg="all_ai" type="open_pose.py" output="screen"/>
 
-    <node name="human_node" pkg="all_ai" type="voice_control.py" output="screen"/>
+    <node name="voice_node" pkg="all_ai" type="voice_control.py" output="screen"/>
 
-    <node name="human_node" pkg="all_ai" type="bage_follwer.py" output="screen"/>
+    <node name="bag_node" pkg="all_ai" type="bage_follwer.py" output="screen"/>
     
 
 </launch> 
