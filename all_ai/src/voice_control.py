@@ -3,21 +3,32 @@
 import rospy
 import speech_recognition as sr
 from std_msgs.msg import String
+import time
 
 class VoiceRecognitionNode:
     def __init__(self):
         rospy.init_node('voice_recognition_node', anonymous=True)
         self.recognizer = sr.Recognizer()
-        self.rate = rospy.Rate(100)  # เปลี่ยนเป็น 10 Hz
+        self.rate = rospy.Rate(150)  # เปลี่ยนเป็น 10 Hz
         # สร้าง Publisher สำหรับข้อความที่รับรู้
         self.text_pub = rospy.Publisher('/recognized_text', String, queue_size=10)
+        self.start_time = time.time()
+        self.timeout = 5
 
     def recognize_speech(self):
         with sr.Microphone() as source:
             rospy.loginfo("กรุณาพูดอะไรสักคำ...")
-            self.text_pub.publish("wait for voice !!")
-            self.recognizer.adjust_for_ambient_noise(source)
-            audio = self.recognizer.listen(source)
+
+            
+            self.start_time = time.time()
+            while True:
+                self.text_pub.publish("wait for voice !!")
+                self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
+                audio = self.recognizer.listen(source)
+                if time.time() - self.start_time > self.timeout:
+                    recognized_text = " Process Time out, please wait "
+                    self.text_pub.publish(recognized_text)
+                    break
             rospy.loginfo("รอแปป...")
             self.text_pub.publish("wait process")
             try:
