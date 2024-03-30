@@ -2,6 +2,11 @@
 <launch>
     <include file="$(find turtlebot_bringup)/launch/bringup.launch"/>
 
+    <include file="$(find astra_camera)/launch/astra.launch"/>
+
+    <node name="voice_node" pkg="all_ai" type="voice_control.py" output="screen"/>
+
+
     <!-- <node name="main_state_node" pkg="all_ai" type="main2.py" output="screen"/> -->
 
 </launch> 
