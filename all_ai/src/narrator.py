@@ -1,13 +1,11 @@
 from gtts import gTTS 
 from playsound import playsound
 import os
-import time
 
 def speech(text, language = "en") :
     narrator = gTTS(text=text, lang=language, slow=False)
     file_path = os.getcwd()
     narrator.save(os.path.join(file_path, "narrator_temp.mp3"))
-    time.sleep(0.01)
     playsound(os.path.join(file_path, "narrator_temp.mp3"))
     
 if __name__ == "__main__" :
