@@ -36,9 +36,10 @@ def main():
         # Define the goal pose
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = "map"
-        goal_pose.pose.position.x = 1.0
-        goal_pose.pose.position.y = 1.0
-        goal_pose.pose.orientation.w = 1.0
+        goal_pose.pose.position.x = -1.55
+        goal_pose.pose.position.y = 2.10
+        goal_pose.pose.orientation.w = 0.99
+        goal_pose.pose.orientation.z = 0.01
 
         # Send the goal pose
         goal_sender.send_goal_pose(goal_pose)

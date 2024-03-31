@@ -41,7 +41,7 @@ class MainSystem:
         self.action_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.action_client.wait_for_server()
 
-        self.state = 10
+        self.state = 1
 
         # Rate for the control loop
         self.rate = rospy.Rate(10)  # Adjust the rate as needed
@@ -86,10 +86,10 @@ class MainSystem:
     def run(self):
         while not rospy.is_shutdown():
             rospy.loginfo("Start")
-            speech("Please tell me yes if you're ready")
-            while self.wait_for_txt(self.txt_read) == "yes":
-                speech("PLease try again")              
-                speech(self.wait_for_txt(self.txt_read))
+            # speech("Please tell me yes if you're ready")
+            # while self.wait_for_txt(self.txt_read) == "yes":
+            #     speech("PLease try again")              
+            #     speech(self.wait_for_txt(self.txt_read))
             
             rospy.loginfo("Current state is ", self.state)
             while self.state == 0:
