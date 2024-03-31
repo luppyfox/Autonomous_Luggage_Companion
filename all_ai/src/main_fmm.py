@@ -12,6 +12,7 @@ import math
 import actionlib
 from tf.transformations import quaternion_from_euler
 from math import pi
+from narrator import speech
 
 class MainSystem:
     def __init__(self):
@@ -28,6 +29,8 @@ class MainSystem:
         self.vel_msg.angular.z = 0.0
 
         # Subscribe to the move_base action feedback
+        rospy.Subscriber('/recognized_text', String, self.text_callback)
+        self.txt_read = ""
         rospy.Subscriber("/human_dist", Int32, self.human_dist_callback)
         self.human_dist = 0
         rospy.Subscriber("/human_turn", Float64, self.human_turn_callback)
@@ -38,7 +41,7 @@ class MainSystem:
         self.action_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
         self.action_client.wait_for_server()
 
-        self.state = 0.0
+        self.state = 10
 
         # Rate for the control loop
         self.rate = rospy.Rate(10)  # Adjust the rate as needed
@@ -58,7 +61,16 @@ class MainSystem:
         self.goal_reached = feedback.status.status
         if feedback.status.status == GoalStatus.SUCCEEDED:
             rospy.loginfo("Goal reached!")
-    
+    def text_callback(self, data):
+        rospy.loginfo("Voice recognition")
+        self.txt_read = data.data
+
+    def wait_for_txt(self,txt):
+        while (txt == "wait for voice !!" or txt == "wait process" or txt == " Process Time out, please wait " or txt == ""):
+            rospy.loginfo("wait for text")
+        return (txt)
+         
+
     # Function to send velocity commands
     def send_velocity(self, linear_vel, angular_vel):
         self.vel_msg.linear.x = linear_vel
@@ -73,6 +85,11 @@ class MainSystem:
 
     def run(self):
         while not rospy.is_shutdown():
+            rospy.loginfo("Start")
+            speech("Please tell me yes if you're ready")
+            while self.wait_for_txt(self.txt_read) == "yes":
+                speech("PLease try again")              
+                speech(self.wait_for_txt(self.txt_read))
             
             rospy.loginfo("Current state is ", self.state)
             while self.state == 0:

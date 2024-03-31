@@ -9,4 +9,6 @@ def speech(text, language = "en") :
     playsound(os.path.join(file_path, "narrator_temp.mp3"))
     
 if __name__ == "__main__" :
+    print("Start")
     speech("I died and reincarnated into a very thin and sharp pizza crust. and accidentally beheaded the strongest dragon in the world and become the strongest pizza in the world")
+    print("Done")
