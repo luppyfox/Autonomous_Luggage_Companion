@@ -9,18 +9,18 @@
     <!-- Map server -->
     <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)" />
 
-    <!-- <include file="$(find turtlebot_navigation)/launch/amcl_demo.launch"/> -->
+    <include file="$(find turtlebot_navigation)/launch/amcl_demo.launch"/>
 
-
+     <include file="$(find turtlebot_rviz_launchers)/launch/view_navigation.launch"/>
 
     <!-- <include file="$(find turtlebot_rviz)/launch/view_navigation.launch"/> -->
     <!-- <node name="main_state_node" pkg="all_ai" type="main2.py" output="screen"/> -->
 
     <!-- <include file="$(find astra_camera)/launch/astra.launch"/> -->
 
-    <node name="voice_node" pkg="all_ai" type="voice_control.py" output="screen"/>
+    <!-- <node name="voice_node" pkg="all_ai" type="voice_control.py" output="screen"/> -->
 
-    <node name="main_node" pkg="all_ai" type="main_fmm.py" output="screen"/>
+    <!-- <node name="main_node" pkg="all_ai" type="main_fmm.py" output="screen"/> -->
 
     <!-- <node name="hand_node" pkg="all_ai" type="hand_sub.py" output="screen"/> -->
     
