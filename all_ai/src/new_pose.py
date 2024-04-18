@@ -66,20 +66,55 @@ class hand_pose:
             if hasattr(self, 'frame_rgb') and hasattr(self, 'frame_depth'):
                 try:
                     self.lock.acquire()
-                    results = self.model.track(self.frame_rgb)#จำกัดจำนวน [0]
-    
-                    #result_keypoint = results.keypoints.xyn.cpu().numpy()
-
-
+                    results = self.model.track(self.frame_rgb , persist=False, verbose=False)#จำกัดจำนวน [0]
+                    h, w, _ = self.frame_rgb.shape
+                    frame_copy = self.frame_rgb.copy()
+                    #id
+                    track_ids = results[0].boxes.id.int().cpu().tolist()
+                    #boxs
+                    boxes = results[0].boxes.xyxy.cpu()
+                    #keypoint ตำแหน่งกระดูก
                     result_keypoint = results[0].keypoints.xyn.cpu().numpy()
 
-                    print(result_keypoint)
+                    #หาตรงกลางตำแหน่งกระดูกช่วงอก
+                   
+                   
+                    btw_distance = []
+                    btw_id = 0
+                    for res_key , id  in zip(result_keypoint,track_ids):
+                        px1 = res_key[5][0] * w
+                        py1 = res_key[5][1] * h
+
+                        px2 = res_key[6][0] * w
+                        py2 = res_key[6][1] * h
+
+                        if px1 != '' or px2 != '':
+                            ctx_p = (px1 + px2) /2
+                            cty_p = (py1 + py2) /2
+
+                            cv2.putText(frame_copy, f"{id}", (abs(int(ctx_p)), abs(int(cty_p))), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+                            cv2.circle(frame_copy , (abs(int(ctx_p)), abs(int(cty_p))), 5, (255, 0, 255), cv2.FILLED)
+                            
+                            dist =  self.frame_depth[int(cty_p) , int(ctx_p)] #mm
+
+
+                            #print(dist)
+                            if dist < 2000:
+                                btw_distance.append((id,dist))
                     
+                    min_value = min(btw_distance)
+                    x1 , y1 , x2 , y2 = boxes[min_value[0]]
+                    #cropped_image = self.frame_rgb[int(y1),int(y2):int(x1),int(x2)]
+                    #cv2.rectangle(frame_copy, (int(x1), int(y1)), (int(x2), int(y2)), (255, 0, 255), 2)
+
+
+
                     frame_ = results[0].plot()
-
-
+                    
+                    #cv2.imshow("crop",cropped_image)
                     cv2.imshow("Image",frame_)
                     cv2.imshow("RGB", self.frame_rgb)
+                    cv2.imshow("RGB_copy", frame_copy)
                     
                     self.lock.release()
                     cv2.waitKey(1)
@@ -87,6 +122,8 @@ class hand_pose:
                     rospy.logerr(e)
 
                 self.rate.sleep()
+
+
 
     def run(self):
         threading.Thread(target=self.main_loop).start()
