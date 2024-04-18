@@ -14,10 +14,10 @@ def hand_detection():
     hands = mp_hands.Hands()
 
     rospy.init_node('hand_detection_publisher', anonymous=True)
-    image_pub = rospy.Publisher('hand_detection/image', Image, queue_size=10)
+    image_pub = rospy.Publisher('/camera/color/image_raw', Image, queue_size=10)
     bridge = CvBridge()
 
-    cap = cv2.VideoCapture(0)  # Use default camera
+    #cap = cv2.VideoCapture(0)  # Use default camera
     
     while not rospy.is_shutdown():
         ret, frame = cap.read()

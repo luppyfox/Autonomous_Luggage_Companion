@@ -7,7 +7,6 @@ from geometry_msgs.msg import Pose2D
 from nav_msgs.msg import Odometry
 import math
 from geometry_msgs.msg import Twist
-from pyArmIK import
 
 class MainSystem:
     def __init__(self):

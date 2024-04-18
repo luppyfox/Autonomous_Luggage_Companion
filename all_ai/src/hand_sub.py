@@ -5,8 +5,8 @@ from cv_bridge import CvBridge
 import cv2
 import mediapipe as mp
 from std_msgs.msg import String
-from playsound import playsound
-import threading
+#from playsound import playsound
+#import threading
 import time
 
 class HandGestureListener:
@@ -67,8 +67,8 @@ class HandGestureListener:
                         rospy.loginfo("left")
                         self.han_pub.publish('left')
                         #self.play_sound('catkin_ws/src/ksuck/src/l.m4a')
-                        if self.blockvocie != 1:
-                            threading.Thread(target=self.play_sound, args=('catkin_ws/src/ksuck/src/l.m4a',)).start()
+                        #if self.blockvocie != 1:
+                        #    threading.Thread(target=self.play_sound, args=('catkin_ws/src/ksuck/src/l.m4a',)).start()
 
 
 
@@ -76,8 +76,8 @@ class HandGestureListener:
                         rospy.loginfo("right")
                         self.han_pub.publish('right')
                         #self.play_sound('catkin_ws/src/ksuck/src/r.m4a')
-                        if self.blockvocie != 1:
-                            threading.Thread(target=self.play_sound, args=('catkin_ws/src/ksuck/src/r.m4a',)).start()
+                       #if self.blockvocie != 1:
+                       #    threading.Thread(target=self.play_sound, args=('catkin_ws/src/ksuck/src/r.m4a',)).start()
                 
                         
 
